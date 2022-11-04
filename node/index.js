@@ -40,7 +40,7 @@ app.get('*', (req, res) => {
 })
 
 
-//create
+//DB에 create
 app.post('/api/create', (req, res) => {
   console.log(req.body);
 
@@ -61,5 +61,18 @@ app.post('/api/create', (req, res) => {
 
 })
 
+
+//db상의 데이터 read
+app.post('/api/read', (req,res)=>{
+  Post.find()
+  .exec() //실행
+  .then(doc=>{
+    res.json({success:true, communityList: doc})
+  })
+  .catch(err=>{
+    console.log(err);
+    res.json({success:false})
+  })
+})
 
 //   mongodb+srv://hieun33:abcd1234@cluster0.aclgiow.mongodb.net/?retryWrites=true&w=majority
