@@ -3,3 +3,4 @@
 # 제외시킴
 
 # main으로 저장함
+/node_modules
