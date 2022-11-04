@@ -1,3 +1,5 @@
 /node/node_modules
 /react/node_modules
 # 제외시킴
+
+# main으로 저장함

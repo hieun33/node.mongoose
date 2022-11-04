@@ -15,6 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
+//몽구스 이용 디비접속
 app.listen(port, () => {
   mongoose
     .connect('mongodb+srv://hieun33:abcd1234@cluster0.aclgiow.mongodb.net/?retryWrites=true&w=majority')
@@ -23,6 +24,8 @@ app.listen(port, () => {
     //접속 실패시
     .catch(err => console.log(err));
 })
+
+///-----------여기까지가 노드 빌드
 
 
 app.get('/', (req, res) => {
@@ -41,11 +44,13 @@ app.get('*', (req, res) => {
 app.post('/api/create', (req, res) => {
   console.log(req.body);
 
+  //포스트모델로부터 인스턴스 만들어서
   const PostModel = new Post({
     title: req.body.title,
     content: req.body.content
   })
 
+  //포스트에 저장되고반환.
   PostModel.save()
     .then(() => {
       res.json({ success: true })
