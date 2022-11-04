@@ -3,9 +3,12 @@
 const mongoose = require('mongoose');
 
 const postSchema = new mongoose.Schema({
-  title: String,
-  content: String
-});
+  title: String,       //title,content는 메인에서 가져오기
+  content: String,
+  communityNum: Number,     //counterschema에 있는거 가져옴
+},{collection: 'Posts'});
+
+//{collection: 'Posts'} 몽고디비에 새로운 컬렉션 생성
 
 const Post = mongoose.model('Post', postSchema);
 module.exports = { Post };
