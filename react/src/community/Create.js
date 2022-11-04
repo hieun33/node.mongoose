@@ -11,7 +11,7 @@ function Create() {
   const handeCreate = () => {
     if(Tit.trim() === '' || Con.trim() === '') return alert('제목과 본문을 모두 입력하세요');
     const item = { title: Tit, content: Con };
-    axios.post('/api/create', item)
+    axios.post('/api/community/create', item)
       .then(res => {
         if(res.data.success){
             alert('글 저장이 완료되었습니다.')
