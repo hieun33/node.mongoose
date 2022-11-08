@@ -17,6 +17,8 @@ app.use(express.urlencoded({ extended: true }));
 //community전용 라우터 연결
 app.use('/api/community', require('./router/communityRouter.js'));
 
+//user 전용라우터 연결
+app.use('/api/user', require('./router/userRouter.js'));
 
 
 //몽구스 이용 디비접속
