@@ -1,8 +1,10 @@
 import axios from 'axios';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import Layout from '../common/Layout';
 import styled from 'styled-components';
+
 const DetailWrap = styled.div`
   width: 100%;
   padding: 40px;
@@ -13,6 +15,8 @@ const BtnSet = styled.div`
   margin-top: 20px;
 `
 function Detail() {
+  const user = useSelector(store => store.user);
+  console.log(user);
   const navigate = useNavigate();
   const params = useParams();
   const [Detail, setDetail] = useState({});
@@ -50,6 +54,7 @@ function Detail() {
     Object.keys(Detail).length !==0 && setLoaded(true);
   },[Detail])
 
+
   return (
     <Layout name={'Detail'}>
       {Detail && Loaded? (
@@ -58,10 +63,14 @@ function Detail() {
             <h2>{Detail.title}</h2>
             <p>{Detail.content}</p>
           </DetailWrap>
-          <BtnSet>
+          
+          {user.accessToken !== '' && (
+            <BtnSet>
             <button><Link to={`/edit/${Detail.communityNum}`}>Edit</Link></button>
             <button onClick={handleDelete}>Delete</button>
           </BtnSet>
+          )}
+          
         </>
       )
       :
