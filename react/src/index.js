@@ -11,7 +11,7 @@ const store = configureStore({
 		user : userSlice
 	},
 	//콘솔로그에 뜨는 에러로그 제거
-	middleware: (getDefaultMiddleware) => getDefaultMiddleware({ werializableCheck: false}),
+	middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
 })
 
 ReactDOM.render(

@@ -1,5 +1,10 @@
 import styled from 'styled-components';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { logoutUser } from '../redux/userSlice';
+import firebase from '../firebase';
+
+
 
 const HeaderWrap = styled.header`
   width: 350px;
@@ -43,13 +48,34 @@ const Util = styled.ul`
       font: 14px/1 'arial';
       color: #777;
     }
+    span{
+      color: #777;
+    }
+    
+  }
+`
+const Util2 = styled.ul`
+  position: absolute;
+  bottom: 50px;
+  left: 50px;
+
+  p{
+    color: #777;
+  }
+  span{
+    color: red;
+    cursor: pointer;
   }
 `
 
-
 function Header() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const activeStyle = { color: 'hotpink' };
+  const user = useSelector(store => store.user);
+  console.log(user);
 
+  
   return (
     <HeaderWrap>
       <Logo>
@@ -60,23 +86,45 @@ function Header() {
         <li>
           <NavLink to='/list' style={({ isActive }) => (isActive ? activeStyle : null)}>Show List</NavLink>
         </li>
+        {/* 로그인상태에서만 게시글 입력메뉴 출력 */}
+        {user.accessToken !== '' && (
         <li>
           <NavLink to='/create' style={({ isActive }) => (isActive ? activeStyle : null)}>Write Post</NavLink>
         </li>
+        )}
+        
       </Gnb>
 
-      <Util>
-        
-        <li>
-          <NavLink to='/login' style={({ isActive }) => (isActive ? activeStyle : null)}>Login</NavLink>
-        </li>
-        <li>
-          <NavLink to='/join' style={({ isActive }) => (isActive ? activeStyle : null)}>Join</NavLink>
-        </li>
+      {user.accessToken === '' ? (
+        <Util>
+          <li>
+            <NavLink to='/login' style={({ isActive }) => (isActive ? activeStyle : null)}>Login</NavLink>
+          </li>
+          <li>
+            <NavLink to='/join' style={({ isActive }) => (isActive ? activeStyle : null)}>Join</NavLink>
+          </li>
+        </Util>
+      ) : (
+        <Util2>
+          <span onClick={() => {
+            firebase.auth().signOut();
+            dispatch(logoutUser());
+            alert('로그아웃 되었습니다. 메인페이지로 이동합니다.');
+            navigate('/');
+          }}>Logout</span>
 
-      </Util>
+          <p>{`${user.displayName}님 반갑습니다.`}</p>
+        </Util2>
+      )}
+      
+
     </HeaderWrap>
   );
 }
 
+//미션 - 로그인상태일때 하단의 유틸메뉴에 다음의 내용 출력
+//- '사용자이름'님 반갑습니다.
+//- 로그아웃 버튼(해당버튼 글릭시 강제 로그아웃 되도록 처리) 
+
 export default Header;
+
