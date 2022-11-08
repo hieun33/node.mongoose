@@ -5,7 +5,8 @@ const mongoose = require('mongoose');
 const postSchema = new mongoose.Schema({
   title: String,       //title,content는 메인에서 가져오기
   content: String,
-  communityNum: Number,     //counterschema에 있는거 가져옴
+  communityNum: Number,      //counterschema에 있는거 가져옴
+  userNum: Number,   
 },{collection: 'Posts'});
 
 //{collection: 'Posts'} 몽고디비에 새로운 컬렉션 생성
