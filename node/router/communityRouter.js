@@ -61,4 +61,37 @@ router.post('/detail', (req, res) => {
       })
 })
 
+//edit
+router.post('/edit', (req,res)=> {
+  const temp = {
+    title : req.body.title,
+    content: req.body.content
+  }
+  Post.updateOne({communityNum: req.body.num}, { $set: temp })    //첫번째객체 , 두번째객체
+  .exec()
+    .then(()=>{
+      res.json({success: true})
+    })
+    .catch(err=>{
+      console.log(err);
+      res.json({success: false})
+    })
+  
+})
+
+//delete
+
+router.post('/delete', (req, res) => {
+  console.log(req.body.num);
+  Post.deleteOne({ communityNum: req.body.num }).exec()
+    .then(() => {
+      res.json({ success: true });
+    })
+    .catch(err => {
+      console.log(err);
+      res.json({ success: false })
+    })
+})
+
+
 module.exports = router;

@@ -31,6 +31,22 @@ const Gnb = styled.ul`
   }
 `
 
+const Util = styled.ul`
+  position: absolute;
+  bottom: 50px;
+  left: 50px;
+  display: flex;
+  gap: 20px;
+  
+  li{
+    a{
+      font: 14px/1 'arial';
+      color: #777;
+    }
+  }
+`
+
+
 function Header() {
   const activeStyle = { color: 'hotpink' };
 
@@ -48,6 +64,17 @@ function Header() {
           <NavLink to='/create' style={({ isActive }) => (isActive ? activeStyle : null)}>Write Post</NavLink>
         </li>
       </Gnb>
+
+      <Util>
+        
+        <li>
+          <NavLink to='/login' style={({ isActive }) => (isActive ? activeStyle : null)}>Login</NavLink>
+        </li>
+        <li>
+          <NavLink to='/join' style={({ isActive }) => (isActive ? activeStyle : null)}>Join</NavLink>
+        </li>
+
+      </Util>
     </HeaderWrap>
   );
 }
