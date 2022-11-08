@@ -3,6 +3,7 @@ const router = express.Router();
 
 const { Post } = require('../model/postSchema.js');
 const { Counter } = require('../model/counterSchema.js');
+const { User } = require('../model/userSchema');
 
 
 
@@ -32,20 +33,7 @@ router.post('/create', (req, res) => {
            })
        })
       })
-      .catch(err=>{
-        console.log(err);
-      })
-
-      //위에서 생성된 모델 인스턴스를 DB에 저장
-      Postmedel.save()
-      .then(()=>{         //첫번재모델저장후 다름꺼가져와서 또 저장
-        //성공적으로 post모델이 저장되면 기존 카운터의 communityNum값을 1증가해서 document 업데이트
-        //update에서 자주쓰는 수정방식 3가지 $inc(기존값증가) $dec(기존값감소) $set(새로운값으로 변경)
-        Counter.updateOne({ name: 'counter' },{ $inc: { communityNum : 1 }})
-        .then(() => {
-          res.json({ success : true })
-        })
-      })
+      
     })
     .catch(err=>console.log(err))
   
@@ -55,6 +43,7 @@ router.post('/create', (req, res) => {
   //db상의 데이터 read
 router.post('/read', (req,res)=>{
     Post.find()
+    .populate('writer')
     .exec() //실행
     .then(doc=>{
       res.json({success:true, communityList: doc})
@@ -67,7 +56,7 @@ router.post('/read', (req,res)=>{
   
   //detail
 router.post('/detail', (req, res) => {
-    Post.findOne({ communityNum: req.body.num }).exec()
+  Post.findOne({ communityNum: req.body.num }).populate('writer').exec()
       .then(doc => {
         res.json({ success: true, detail: doc });
       })

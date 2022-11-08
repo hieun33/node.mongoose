@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import Layout from '../common/Layout';
 import styled from 'styled-components';
 
+
 const DetailWrap = styled.div`
   width: 100%;
   padding: 40px;
@@ -40,6 +41,7 @@ function Detail() {
       })
       .catch(err => console.log(err));
   }
+
   useEffect(() => {
     axios.post('/api/community/detail', item)
       .then(res => {
@@ -62,9 +64,12 @@ function Detail() {
           <DetailWrap>
             <h2>{Detail.title}</h2>
             <p>{Detail.content}</p>
+            <span>Writer: {Detail.writer.displayName}</span>
           </DetailWrap>
           
-          {user.accessToken !== '' && (
+
+          {/* 미션 :상세페이지에서 현재 로그인된 사용자와 글 작성자가 다를때 수정, 삭제버튼 숨김처리 */}
+          {user.uid === Detail.writer.uid && (
             <BtnSet>
             <button><Link to={`/edit/${Detail.communityNum}`}>Edit</Link></button>
             <button onClick={handleDelete}>Delete</button>
@@ -80,3 +85,4 @@ function Detail() {
   );
 }
 export default Detail;
+

@@ -29,19 +29,22 @@ function List() {
 
     },[])
 
-    // useEffect(()=>{
-    //   List.length !==0 && setLoaded(true)
-    // },[List])
-    
+    useEffect(() => {
+      console.log(List);
+    }, [List])
+
   return (
     <Layout name={'List'}>
-      { Loaded ? (List.map(post=>{
+      {
+       Loaded ? (List.map(post=>{
         return(
             <Item key={post._id}>
               <h2>
               {/* 글목록의 링크 URL, 글 고유번호를 params로 전달 */}
               <Link to={`/detail/${post.communityNum}`}>{post.title}</Link>
             </h2>
+            
+            <span>Writer: {post.writer.displayName}</span>
             </Item>
         )
       })) : <p>Loading...</p>
