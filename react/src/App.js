@@ -1,18 +1,39 @@
 import { Routes, Route } from 'react-router-dom';
 import Header from './common/Header';
 import Main from './common/Main';
+
+//커뮤니티
 import List from './community/List';
 import Create from './community/Create';
 import Detail from './community/Detail';
+
 import GlobalStyle from './GlobalStyle';
 import Edit from './community/Edit';
 
 //회원가입
 import Join from './user/Join';
 import Login from './user/Login';
+import { loginUser, logoutUser } from './redux/userSlice';
+
+import firebase from './firebase';
+import { useEffect } from 'react';
+
+
 
 
 function App() {
+	useEffect(()=>{
+		//firebase로 현재 auth상태변화를 감지해서 파라미터 해당 상태값을 전달
+		firebase.auth().onAuthStateChanged((userInfo) => {
+			console.log('userInfo', userInfo);
+		})
+	},[]);
+
+	//firebase의 로그인된 유저정보를 제거해서 강제 로그아웃처리 (테스트용도)
+	useEffect(() => {
+		firebase.auth().signOut();
+	},[]);
+
 	return (
 		<>
 			<GlobalStyle />
