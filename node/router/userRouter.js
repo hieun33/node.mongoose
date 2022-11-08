@@ -16,19 +16,15 @@ router.post('/join', (req, res) => {    //조인으로 들어오는 값
             .then(()=>{
                  //카운터 모델에서 userNum값을 1증가하고 성공응답전달
                  Counter.updateOne({name: 'counter'},{ $inc: {userNum:1}})
-                  .then(()=>[
+                  .then(()=>{
                     res.json({success : true})
-                  ])
+            })
             })
             .catch(err =>{
                 console.log(err);
                 res.json({success: false})
-              })
+            })
     })
-    
-   
-
-
 });
 
 module.exports = router;
