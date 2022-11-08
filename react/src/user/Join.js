@@ -1,8 +1,10 @@
-import { useState } from "react";
-import Layout from "../common/Layout"
-import styled from "styled-components";
+import Layout from '../common/Layout'
+import styled from 'styled-components';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import firebase from '../firebase';
+import { logoutUser } from '../redux/userSlice';
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
 
 const BtnSet = styled.div`
@@ -11,6 +13,7 @@ const BtnSet = styled.div`
 
 function Join() {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [Email, setEmail] =useState('');
     const [Pwd1, setPwd1] = useState('');
     const [Pwd2, setPwd2] = useState('');
@@ -35,14 +38,24 @@ function Join() {
             uid : createdUser.user.multiFactor.user.uid
         }
 
+        //회원가입요청시 로그아웃되는 시점을 좀더 빨리 처리 
+        firebase.auth().signOut();
+        dispatch(logoutUser());
+
         //서버쪽에 post요청 보내기
-        axios.post('/api/user/join', item).then(res => {
-            if(res.data.success) navigate('/login');
+        axios.post('/api/user/join', item).then(res => {            
+            if (res.data.success) {
+                //회원가입에 성공하면 다시 전역 store의 로그인정보값을 변경해서 화면 재랜더링
+                //로그인시 header에 사용자 이름이 출력되지 않던 문제점 해결
+               // dispatch(loginUser(createdUser.user))  //바로로그인처리
+                //navigate('/login');
+                
+                alert('회원가입이 완료되었습니다.');
+                navigate('/login');
+              }
             else return alert('회원가입에 실패했습니다.');
         })
-
-       // console.log(createdUser.user);
-        
+       // console.log(createdUser.user);        
     }
 
   return (
