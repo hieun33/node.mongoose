@@ -10,7 +10,7 @@ const postSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   } 
-},{collection: 'Posts'});
+},{ collection: 'Posts', timestamps: true });
 
 //{collection: 'Posts'} 몽고디비에 새로운 컬렉션 생성
 

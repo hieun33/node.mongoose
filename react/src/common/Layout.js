@@ -40,6 +40,9 @@ const MainWrap = styled.main`
         color: #fff;
         cursor: pointer;
         border: none;
+        &.on{
+          background:hotpink;
+         }
         a{
           color:#fff;
         }

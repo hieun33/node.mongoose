@@ -26,11 +26,11 @@ function Detail() {
   const item = {
     num: params.num
   }
-  console.log(item);
+  //console.log(item);
 
   const handleDelete = () => {
     if (!window.confirm('정말 삭제하겠습니다.')) return;
-    axios.post('/api/community/delete', item)
+    axios.delete(`/api/community/delete/${item.num}`)
       .then(res => {
         if (res.data.success) {
           alert('게시글이 삭제되었습니다.');
@@ -43,7 +43,7 @@ function Detail() {
   }
 
   useEffect(() => {
-    axios.post('/api/community/detail', item)
+    axios.get(`/api/community/detail?num=${item.num}`)
       .then(res => {
         if (res.data.success) {
           setDetail(res.data.detail);
@@ -54,6 +54,7 @@ function Detail() {
 
   useEffect(()=>{
     Object.keys(Detail).length !==0 && setLoaded(true);
+    console.log(Detail)
   },[Detail])
 
 
@@ -64,7 +65,8 @@ function Detail() {
           <DetailWrap>
             <h2>{Detail.title}</h2>
             <p>{Detail.content}</p>
-            <span>Writer: {Detail.writer.displayName}</span>
+            <p>Writer: {Detail.writer.displayName}</p>
+            {Detail.createdAt === Detail.updateAt ? <p>Posted: {Detail.createdAt.split('T')[0]}</p> : <p>Updated: {Detail.updatedAt.split('T')[0]}</p>}
           </DetailWrap>
           
 
